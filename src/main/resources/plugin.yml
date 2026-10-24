@@ -1,0 +1,14 @@
+name: ChatQuiz
+version: '${project.version}'
+main: lv.chatquiz.ChatQuizPlugin
+api-version: '26.2'
+description: Chat viktorīna par Latviju ar balvām
+commands:
+  chatquiz:
+    description: ChatQuiz komandas
+    aliases: [quiz, viktorina]
+    usage: /chatquiz <ask|start|skip|reload>
+permissions:
+  chatquiz.admin:
+    description: Ļauj izmantot /chatquiz komandas
+    default: op

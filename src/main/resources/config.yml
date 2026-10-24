@@ -1,0 +1,191 @@
+# ChatQuiz konfigurācija
+settings:
+  # Cik bieži parādās jautājums (minūtēs, nejauši starp min un max)
+  min-interval-minutes: 5
+  max-interval-minutes: 10
+  # Cik sekundes spēlētājiem ir laiks atbildēt
+  answer-time-seconds: 60
+  # Minimālais spēlētāju skaits serverī, lai jautājums parādītos
+  min-players: 1
+  # Paslēpt pareizo atbildi no čata (lai citi to neredz)
+  hide-correct-answer: true
+  # Balvas daudzums (nejaušs skaits no min līdz max)
+  min-amount: 1
+  max-amount: 6
+  # true = jebkurš nejaušs itēms spēlē; false = tikai saraksts zemāk
+  reward-any-item: false
+
+# Balvu saraksts (Minecraft materiālu nosaukumi). Ja vēlies, lai kaut kas krīt biežāk,
+# ieraksti to sarakstā vairākas reizes.
+reward-materials:
+  # vērtīgie resursi
+  - DIAMOND
+  - EMERALD
+  - GOLD_INGOT
+  - IRON_INGOT
+  - COPPER_INGOT
+  - COAL
+  - LAPIS_LAZULI
+  - REDSTONE
+  - QUARTZ
+  - AMETHYST_SHARD
+  - RAW_IRON
+  - RAW_GOLD
+  - RAW_COPPER
+  # rūdas
+  - COAL_ORE
+  - IRON_ORE
+  - GOLD_ORE
+  - COPPER_ORE
+  - LAPIS_ORE
+  - REDSTONE_ORE
+  - DIAMOND_ORE
+  - EMERALD_ORE
+  - DEEPSLATE_IRON_ORE
+  - DEEPSLATE_GOLD_ORE
+  - DEEPSLATE_DIAMOND_ORE
+  # bloki
+  - GLASS
+  - STONE
+  - COBBLESTONE
+  - STONE_BRICKS
+  - OAK_PLANKS
+  - SPRUCE_PLANKS
+  - BIRCH_PLANKS
+  - JUNGLE_PLANKS
+  - ACACIA_PLANKS
+  - DARK_OAK_PLANKS
+  - OAK_LOG
+  - SPRUCE_LOG
+  - BIRCH_LOG
+  # tikai zelta ēdiens
+  - GOLDEN_APPLE
+  - GOLDEN_CARROT
+  - GLISTERING_MELON_SLICE
+
+# Ziņojumi (MiniMessage formāts)
+messages:
+  prefix: "<gold><bold>[Viktorīna]</bold></gold> "
+  question: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Tev ir <seconds> sekundes!)</gray>"
+  winner: "<green><player></green> atbildēja pareizi un ieguva <aqua><amount>x</aqua> <item>! <gray>Atbilde: <answer></gray>"
+  question-no-timer: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Nav laika limita – pirmais pareizais uzvar!)</gray>"
+  timeout: "<red>Laiks beidzies!</red> Pareizā atbilde: <green><answer></green>"
+  reward-received: "<green>Apsveicam! Tu saņēmi <amount>x</green> <item><green>!</green>"
+  inventory-full: "<gray>Tavs inventārs bija pilns, daļa mantu nokrita zemē.</gray>"
+  no-permission: "<red>Tev nav atļaujas.</red>"
+  reloaded: "<green>Konfigurācija pārlādēta (<count> jautājumi).</green>"
+  asked: "<green>Jautājums uzdots.</green>"
+  skipped: "<yellow>Jautājums izlaists.</yellow>"
+  already-active: "<red>Jautājums jau ir aktīvs.</red>"
+  no-active: "<red>Šobrīd nav aktīva jautājuma.</red>"
+  usage: "<gray>Lietošana: /chatquiz <ask|start|skip|reload></gray>"
+
+# Jautājumi: q = jautājums, a = pieņemamās atbildes (reģistrs un garumzīmes nav svarīgas)
+questions:
+  - q: "Kā sauc Latvijas galvaspilsētu?"
+    a: ["Rīga"]
+  - q: "Kurā gadā tika proklamēta Latvijas Republika?"
+    a: ["1918"]
+  - q: "Kurā datumā tiek svinēta Latvijas Republikas proklamēšanas diena? (piem. 5. maijs)"
+    a: ["18. novembris", "18.novembris", "18 novembris"]
+  - q: "Kā sauc Latvijas augstāko kalnu?"
+    a: ["Gaiziņkalns", "Gaizinkalns"]
+  - q: "Kā sauc garāko upi, kas plūst caur Latviju?"
+    a: ["Daugava"]
+  - q: "Kā sauc Latvijas lielāko ezeru pēc platības?"
+    a: ["Lubāns", "Lubāna ezers"]
+  - q: "Kā sauc Latvijas dziļāko ezeru?"
+    a: ["Drīdzis", "Drīdža ezers"]
+  - q: "Kāda ir Latvijas valsts valoda?"
+    a: ["latviešu", "latviešu valoda", "latvieši"]
+  - q: "Kāda ir Latvijas naudas vienība?"
+    a: ["eiro", "euro"]
+  - q: "Kā sauc Latvijas ziemeļu kaimiņvalsti?"
+    a: ["Igaunija"]
+  - q: "Kā sauc Latvijas dienvidu kaimiņvalsti?"
+    a: ["Lietuva"]
+  - q: "Kā sauc Latvijas otro lielāko pilsētu pēc iedzīvotāju skaita?"
+    a: ["Daugavpils"]
+  - q: "Kā sauc Latvijas lielāko kūrortpilsētu pie Rīgas jūras līča?"
+    a: ["Jūrmala"]
+  - q: "Kurā ostas pilsētā atrodas Karosta?"
+    a: ["Liepāja"]
+  - q: "Kā sauc slaveno ūdenskritumu Kuldīgā?"
+    a: ["Ventas rumba", "Venta rumba", "Rumba"]
+  - q: "Kā tautā dēvē Latvijas Nacionālo bibliotēku? (divi vārdi, sākas ar Gaismas)"
+    a: ["Gaismas pils"]
+  - q: "Kas sarakstījis lugu 'Uguns un nakts'?"
+    a: ["Rainis", "Jānis Rainis"]
+  - q: "Kā sauc Latvijas himnu? (nosaukums trīs vārdos)"
+    a: ["Dievs, svētī Latviju", "Dievs svētī Latviju"]
+  - q: "Kurš komponists sacerējis Latvijas himnas mūziku? (uzvārds)"
+    a: ["Baumanis", "Kārlis Baumanis"]
+  - q: "Kurš arhitekts projektēja Rundāles pili? (uzvārds)"
+    a: ["Rastrelli", "Frančesko Bartolomeo Rastrelli"]
+  - q: "Kurā mēnesī tiek svinēti Jāņi jeb Līgo svētki?"
+    a: ["jūnijā", "jūnijs"]
+  - q: "Kādā krāsā ir šaurā svītra Latvijas karogā?"
+    a: ["balta", "baltā"]
+  - q: "Kāda krāsa Latvijas karogā ir platajām svītrām? (viena no divām)"
+    a: ["sarkana", "tumši sarkana", "karmīnsarkana", "sarkanā"]
+  - q: "Kā sauc Latvijas pirmo valsts prezidentu? (uzvārds)"
+    a: ["Čakste", "Jānis Čakste"]
+  - q: "Kurā pilsētā pie Gaujas atrodas Turaidas pils?"
+    a: ["Sigulda", "Siguldā"]
+  - q: "Kā sauc Latvijas nacionālo putnu? (divi vārdi, sākas ar baltā)"
+    a: ["cielava", "baltā cielava"]
+
+  - q: "Kā sauc garāko upi, kas plūst tikai Latvijas teritorijā?"
+    a: ["Gauja"]
+  - q: "Kurā jūrā atrodas Rīgas jūras līcis?"
+    a: ["Baltijas jūrā", "Baltijas jūra", "Baltijas"]
+  - q: "Kas sarakstījis latviešu episko dzejoli 'Lāčplēsis'? (uzvārds)"
+    a: ["Pumpurs", "Andrejs Pumpurs"]
+  - q: "Kā tautā dēvē Brīvības pieminekļa augšgalā esošo figūru?"
+    a: ["Milda"]
+  - q: "Kurā gadā Latvija iestājās Eiropas Savienībā?"
+    a: ["2004"]
+  - q: "Kurā gadā Latvija iestājās NATO?"
+    a: ["2004"]
+  - q: "Kurā gadā Latvija ieviesa eiro?"
+    a: ["2014"]
+  - q: "Kurā gadā Latvija kļuva par ANO dalībvalsti?"
+    a: ["1991"]
+  - q: "Kādu sieru tradicionāli gatavo un ēd Jāņos? (divi vārdi)"
+    a: ["Jāņu siers"]
+  - q: "Cik krāsu ir Latvijas karogā?"
+    a: ["2", "divas", "divi"]
+  - q: "Kā sauc Rīgas galveno ielu, kuras galā atrodas Brīvības piemineklis?"
+    a: ["Brīvības iela"]
+  - q: "Kā sauc laukumu Vecrīgā, kur atrodas Melngalvju nams?"
+    a: ["Rātslaukums", "Rātslaukumā"]
+  - q: "Kā sauc Eiropā pazīstamo Rīgas tirgu, kas atrodas bijušajos cepelīnu angāros?"
+    a: ["Centrāltirgus", "Rīgas Centrāltirgus"]
+  - q: "Kā sauc dārgakmeni, ko Baltijas jūra izskalo krastā un kas ir sasalušas sveķi?"
+    a: ["dzintars", "dzintaru"]
+  - q: "Kā sauc Latvijas lielāko nacionālo parku? (nosaukums bez vārda 'parks')"
+    a: ["Gaujas", "Gaujas nacionālais parks"]
+  - q: "Kā sauc Rīgas hokeja klubu, kas spēlējis KHL?"
+    a: ["Dinamo Rīga", "Dinamo"]
+  - q: "Kā sauc Latvijas basketbolistu Porziņģi? (vārds)"
+    a: ["Kristaps"]
+  - q: "Kurā datumā tiek atzīmēta Lāčplēša diena? (piem. 5. maijs)"
+    a: ["11. novembris", "11.novembris", "11 novembris"]
+  - q: "Kurā datumā sākas Jāņu svinības (Līgo vakars)? (piem. 5. maijs)"
+    a: ["23. jūnijs", "23.jūnijs", "23 jūnijs"]
+  - q: "Cik zvaigžņu ir Eiropas Savienības karogā?"
+    a: ["12", "divpadsmit"]
+  - q: "Kurā pilsētā atrodas Cēsu viduslaiku pils?"
+    a: ["Cēsis", "Cēsīs"]
+  - q: "Kā sauc lielāko ezeru Rīgā?"
+    a: ["Ķīšezers", "Ķīšezers ezers"]
+  - q: "Kā sauc slaveno Rīgas balzamu? (Rīgas ... balzams)"
+    a: ["melnais", "Rīgas melnais balzams", "melnais balzams"]
+  - q: "Kāds ir Latvijas tālruņa valsts kods? (tikai cipari)"
+    a: ["371", "+371"]
+  - q: "Kurā pasaules daļā atrodas Latvija?"
+    a: ["Eiropā", "Eiropa"]
+  - q: "Kurš mītisks zvērs kopā ar lauvu ir attēlots Latvijas lielajā valsts ģerbonī?"
+    a: ["grifs", "grifu"]
+  - q: "Kāds ir Latvijas nacionālais kukainis? (divpunktu ...)"
+    a: ["mārīte", "divpunktu mārīte"]
