@@ -7,6 +7,8 @@ settings:
   answer-time-seconds: 60
   # Minimālais spēlētāju skaits serverī, lai jautājums parādītos
   min-players: 1
+  # Pēc cik sekundēm parādīt mājienu (0 = izslēgts)
+  hint-delay-seconds: 10
   # Paslēpt pareizo atbildi no čata (lai citi to neredz)
   hide-correct-answer: true
   # Balvas daudzums (nejaušs skaits no min līdz max)
@@ -69,6 +71,7 @@ messages:
   question: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Tev ir <seconds> sekundes!)</gray>"
   winner: "<green><player></green> atbildēja pareizi un ieguva <aqua><amount>x</aqua> <item>! <gray>Atbilde: <answer></gray>"
   question-no-timer: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Nav laika limita – pirmais pareizais uzvar!)</gray>"
+  hint: "<aqua>Mājiens:</aqua> <white><hint></white>"
   timeout: "<red>Laiks beidzies!</red> Pareizā atbilde: <green><answer></green>"
   reward-received: "<green>Apsveicam! Tu saņēmi <amount>x</green> <item><green>!</green>"
   inventory-full: "<gray>Tavs inventārs bija pilns, daļa mantu nokrita zemē.</gray>"

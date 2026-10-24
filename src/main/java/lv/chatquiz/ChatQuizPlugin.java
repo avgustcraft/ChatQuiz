@@ -40,6 +40,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
     private Question lastQuestion;
     private BukkitTask nextTask;
     private BukkitTask timeoutTask;
+    private BukkitTask hintTask;
 
     @Override
     public void onEnable() {
@@ -111,8 +112,14 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
     private void cancelTasks() {
         if (nextTask != null) nextTask.cancel();
         if (timeoutTask != null) timeoutTask.cancel();
+        cancelHint();
         nextTask = null;
         timeoutTask = null;
+    }
+
+    private void cancelHint() {
+        if (hintTask != null) hintTask.cancel();
+        hintTask = null;
     }
 
     private void scheduleNext() {
@@ -141,6 +148,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
 
         int seconds = Math.max(5, getConfig().getInt("settings.answer-time-seconds", 60));
         active.set(q);
+        scheduleHint(q);
 
         if (!timed) {
             // jautājums bez taimera: gaida, līdz kāds atbild vai admins izlaiž
@@ -162,6 +170,34 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
             }
         }, seconds * 20L);
         return true;
+    }
+
+    private void scheduleHint(Question q) {
+        cancelHint();
+        int delay = getConfig().getInt("settings.hint-delay-seconds", 10);
+        if (delay <= 0) return;
+        hintTask = Bukkit.getScheduler().runTaskLater(this, () -> {
+            if (active.get() == q) {
+                Bukkit.broadcast(msg("hint",
+                        Placeholder.unparsed("hint", buildHint(q.answers().get(0)))));
+            }
+        }, delay * 20L);
+    }
+
+    /** Parāda katra vārda pirmo burtu, pārējie burti kļūst par _ */
+    static String buildHint(String answer) {
+        StringBuilder sb = new StringBuilder();
+        boolean startOfWord = true;
+        for (char c : answer.toCharArray()) {
+            if (Character.isLetterOrDigit(c)) {
+                sb.append(startOfWord ? c : '_');
+                startOfWord = false;
+            } else {
+                sb.append(c);
+                startOfWord = (c == ' ');
+            }
+        }
+        return sb.toString();
     }
 
     // ------------------------------------------------------------------ chat
@@ -188,6 +224,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
 
     private void win(Player player, Question q) {
         if (timeoutTask != null) timeoutTask.cancel();
+        cancelHint();
 
         int minA = Math.max(1, getConfig().getInt("settings.min-amount", 1));
         int maxA = Math.max(minA, getConfig().getInt("settings.max-amount", 6));
@@ -250,6 +287,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
                 Question q = active.get();
                 if (q != null && active.compareAndSet(q, null)) {
                     if (timeoutTask != null) timeoutTask.cancel();
+                    cancelHint();
                     Bukkit.broadcast(msg("timeout", Placeholder.unparsed("answer", q.answers().get(0))));
                     scheduleNext();
                     sender.sendMessage(msgNoPrefix("skipped"));
