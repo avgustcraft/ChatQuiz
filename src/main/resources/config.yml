@@ -3,12 +3,14 @@ settings:
   # Cik bieži parādās jautājums (minūtēs, nejauši starp min un max)
   min-interval-minutes: 5
   max-interval-minutes: 10
-  # Cik sekundes spēlētājiem ir laiks atbildēt
-  answer-time-seconds: 60
+  # 1. mājiens parādās pēc šīm sekundēm pēc jautājuma
+  hint-delay-seconds: 10
+  # 2. mājiens parādās pēc šīm sekundēm pēc 1. mājiena
+  second-hint-delay-seconds: 20
+  # Cik sekundes pēc 2. mājiena gaidīt, tad jautājums beidzas un tiek parādīta pareizā atbilde
+  end-delay-seconds: 20
   # Minimālais spēlētāju skaits serverī, lai jautājums parādītos
   min-players: 1
-  # Pēc cik sekundēm parādīt mājienu (0 = izslēgts)
-  hint-delay-seconds: 10
   # Paslēpt pareizo atbildi no čata (lai citi to neredz)
   hide-correct-answer: true
   # Balvas daudzums (nejaušs skaits no min līdz max)
@@ -20,32 +22,22 @@ settings:
 # Balvu saraksts (Minecraft materiālu nosaukumi). Ja vēlies, lai kaut kas krīt biežāk,
 # ieraksti to sarakstā vairākas reizes.
 reward-materials:
-  # vērtīgie resursi
+  # vērtīgie resursi un rūdu itēmi (nevis rūdas bloki)
   - DIAMOND
   - EMERALD
   - GOLD_INGOT
   - IRON_INGOT
   - COPPER_INGOT
+  - RAW_IRON
+  - RAW_GOLD
+  - RAW_COPPER
   - COAL
   - LAPIS_LAZULI
   - REDSTONE
   - QUARTZ
   - AMETHYST_SHARD
-  - RAW_IRON
-  - RAW_GOLD
-  - RAW_COPPER
-  # rūdas
-  - COAL_ORE
-  - IRON_ORE
-  - GOLD_ORE
-  - COPPER_ORE
-  - LAPIS_ORE
-  - REDSTONE_ORE
-  - DIAMOND_ORE
-  - EMERALD_ORE
-  - DEEPSLATE_IRON_ORE
-  - DEEPSLATE_GOLD_ORE
-  - DEEPSLATE_DIAMOND_ORE
+  - IRON_NUGGET
+  - GOLD_NUGGET
   # bloki
   - GLASS
   - STONE
@@ -69,9 +61,10 @@ reward-materials:
 messages:
   prefix: "<gold><bold>[Viktorīna]</bold></gold> "
   question: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Tev ir <seconds> sekundes!)</gray>"
-  winner: "<green><player></green> atbildēja pareizi un ieguva <aqua><amount>x</aqua> <item>! <gray>Atbilde: <answer></gray>"
   question-no-timer: "<yellow>Jautājums:</yellow> <white><question></white> <gray>(Nav laika limita – pirmais pareizais uzvar!)</gray>"
-  hint: "<aqua>Mājiens:</aqua> <white><hint></white>"
+  hint: "<aqua>1. mājiens:</aqua> <white><hint></white>"
+  hint2: "<aqua>2. mājiens:</aqua> <white><hint></white>"
+  winner: "<green><player></green> atbildēja pareizi un ieguva <aqua><amount>x</aqua> <item>! <gray>Atbilde: <answer></gray>"
   timeout: "<red>Laiks beidzies!</red> Pareizā atbilde: <green><answer></green>"
   reward-received: "<green>Apsveicam! Tu saņēmi <amount>x</green> <item><green>!</green>"
   inventory-full: "<gray>Tavs inventārs bija pilns, daļa mantu nokrita zemē.</gray>"
@@ -81,10 +74,14 @@ messages:
   skipped: "<yellow>Jautājums izlaists.</yellow>"
   already-active: "<red>Jautājums jau ir aktīvs.</red>"
   no-active: "<red>Šobrīd nav aktīva jautājuma.</red>"
-  usage: "<gray>Lietošana: /chatquiz <ask|start|skip|reload></gray>"
+  auto-on: "<green>Automātiskā viktorīna ieslēgta: jauns jautājums ik pēc <minutes> min.</green>"
+  auto-off: "<yellow>Fiksētais intervāls izslēgts, atgriezts parastais intervāls no config.</yellow>"
+  usage: "<gray>Lietošana: /chatquiz <ask|start|auto [minūtes|off]|skip|reload></gray>"
 
-# Jautājumi: q = jautājums, a = pieņemamās atbildes (reģistrs un garumzīmes nav svarīgas)
+# Jautājumi: q = jautājums, a = pieņemamās atbildes (reģistrs un garumzīmes nav svarīgas).
+# Pirmā atbilde tiek rādīta kā pareizā atbilde un no tās veido mājienus.
 questions:
+  # ---------- Latvija ----------
   - q: "Kā sauc Latvijas galvaspilsētu?"
     a: ["Rīga"]
   - q: "Kurā gadā tika proklamēta Latvijas Republika?"
@@ -95,10 +92,12 @@ questions:
     a: ["Gaiziņkalns", "Gaizinkalns"]
   - q: "Kā sauc garāko upi, kas plūst caur Latviju?"
     a: ["Daugava"]
+  - q: "Kā sauc garāko upi, kas plūst tikai Latvijas teritorijā?"
+    a: ["Gauja"]
   - q: "Kā sauc Latvijas lielāko ezeru pēc platības?"
     a: ["Lubāns", "Lubāna ezers"]
-  - q: "Kā sauc Latvijas dziļāko ezeru?"
-    a: ["Drīdzis", "Drīdža ezers"]
+  - q: "Kā sauc lielāko ezeru Rīgā?"
+    a: ["Ķīšezers"]
   - q: "Kāda ir Latvijas valsts valoda?"
     a: ["latviešu", "latviešu valoda", "latvieši"]
   - q: "Kāda ir Latvijas naudas vienība?"
@@ -119,41 +118,30 @@ questions:
     a: ["Gaismas pils"]
   - q: "Kas sarakstījis lugu 'Uguns un nakts'?"
     a: ["Rainis", "Jānis Rainis"]
+  - q: "Kas sarakstījis episko dzejoli 'Lāčplēsis'? (uzvārds)"
+    a: ["Pumpurs", "Andrejs Pumpurs"]
   - q: "Kā sauc Latvijas himnu? (nosaukums trīs vārdos)"
     a: ["Dievs, svētī Latviju", "Dievs svētī Latviju"]
-  - q: "Kurš komponists sacerējis Latvijas himnas mūziku? (uzvārds)"
-    a: ["Baumanis", "Kārlis Baumanis"]
-  - q: "Kurš arhitekts projektēja Rundāles pili? (uzvārds)"
-    a: ["Rastrelli", "Frančesko Bartolomeo Rastrelli"]
   - q: "Kurā mēnesī tiek svinēti Jāņi jeb Līgo svētki?"
     a: ["jūnijā", "jūnijs"]
   - q: "Kādā krāsā ir šaurā svītra Latvijas karogā?"
     a: ["balta", "baltā"]
-  - q: "Kāda krāsa Latvijas karogā ir platajām svītrām? (viena no divām)"
+  - q: "Kāda krāsa Latvijas karogā ir platajām svītrām?"
     a: ["sarkana", "tumši sarkana", "karmīnsarkana", "sarkanā"]
   - q: "Kā sauc Latvijas pirmo valsts prezidentu? (uzvārds)"
     a: ["Čakste", "Jānis Čakste"]
   - q: "Kurā pilsētā pie Gaujas atrodas Turaidas pils?"
     a: ["Sigulda", "Siguldā"]
   - q: "Kā sauc Latvijas nacionālo putnu? (divi vārdi, sākas ar baltā)"
-    a: ["cielava", "baltā cielava"]
-
-  - q: "Kā sauc garāko upi, kas plūst tikai Latvijas teritorijā?"
-    a: ["Gauja"]
+    a: ["baltā cielava", "cielava"]
   - q: "Kurā jūrā atrodas Rīgas jūras līcis?"
     a: ["Baltijas jūrā", "Baltijas jūra", "Baltijas"]
-  - q: "Kas sarakstījis latviešu episko dzejoli 'Lāčplēsis'? (uzvārds)"
-    a: ["Pumpurs", "Andrejs Pumpurs"]
   - q: "Kā tautā dēvē Brīvības pieminekļa augšgalā esošo figūru?"
     a: ["Milda"]
   - q: "Kurā gadā Latvija iestājās Eiropas Savienībā?"
     a: ["2004"]
-  - q: "Kurā gadā Latvija iestājās NATO?"
-    a: ["2004"]
   - q: "Kurā gadā Latvija ieviesa eiro?"
     a: ["2014"]
-  - q: "Kurā gadā Latvija kļuva par ANO dalībvalsti?"
-    a: ["1991"]
   - q: "Kādu sieru tradicionāli gatavo un ēd Jāņos? (divi vārdi)"
     a: ["Jāņu siers"]
   - q: "Cik krāsu ir Latvijas karogā?"
@@ -170,25 +158,191 @@ questions:
     a: ["Gaujas", "Gaujas nacionālais parks"]
   - q: "Kā sauc Rīgas hokeja klubu, kas spēlējis KHL?"
     a: ["Dinamo Rīga", "Dinamo"]
-  - q: "Kā sauc Latvijas basketbolistu Porziņģi? (vārds)"
-    a: ["Kristaps"]
   - q: "Kurā datumā tiek atzīmēta Lāčplēša diena? (piem. 5. maijs)"
     a: ["11. novembris", "11.novembris", "11 novembris"]
   - q: "Kurā datumā sākas Jāņu svinības (Līgo vakars)? (piem. 5. maijs)"
     a: ["23. jūnijs", "23.jūnijs", "23 jūnijs"]
-  - q: "Cik zvaigžņu ir Eiropas Savienības karogā?"
-    a: ["12", "divpadsmit"]
   - q: "Kurā pilsētā atrodas Cēsu viduslaiku pils?"
     a: ["Cēsis", "Cēsīs"]
-  - q: "Kā sauc lielāko ezeru Rīgā?"
-    a: ["Ķīšezers", "Ķīšezers ezers"]
-  - q: "Kā sauc slaveno Rīgas balzamu? (Rīgas ... balzams)"
-    a: ["melnais", "Rīgas melnais balzams", "melnais balzams"]
   - q: "Kāds ir Latvijas tālruņa valsts kods? (tikai cipari)"
     a: ["371", "+371"]
-  - q: "Kurā pasaules daļā atrodas Latvija?"
-    a: ["Eiropā", "Eiropa"]
-  - q: "Kurš mītisks zvērs kopā ar lauvu ir attēlots Latvijas lielajā valsts ģerbonī?"
-    a: ["grifs", "grifu"]
   - q: "Kāds ir Latvijas nacionālais kukainis? (divpunktu ...)"
     a: ["mārīte", "divpunktu mārīte"]
+  - q: "Kurā gadā tika dibināta Rīga?"
+    a: ["1201"]
+
+  # ---------- Matemātika (6. klase) ----------
+  - q: "Cik ir 12 × 12?"
+    a: ["144"]
+  - q: "Cik ir 15 × 6?"
+    a: ["90"]
+  - q: "Cik ir 144 : 12?"
+    a: ["12"]
+  - q: "Cik ir 1000 − 357?"
+    a: ["643"]
+  - q: "Cik ir ceturtā daļa no 200?"
+    a: ["50"]
+  - q: "Cik ir 25% no 80?"
+    a: ["20"]
+  - q: "Cik ir 50% no 46?"
+    a: ["23"]
+  - q: "Cik grādu ir taisnam leņķim?"
+    a: ["90"]
+  - q: "Cik grādu ir trijstūra leņķu summa?"
+    a: ["180"]
+  - q: "Kā sauc trijstūri, kuram visas trīs malas ir vienādas? (divi vārdi: ... trijstūris)"
+    a: ["vienādmalu", "vienādmalu trijstūris"]
+  - q: "Kāds ir kvadrāta ar malu 7 cm laukums? (tikai skaitlis)"
+    a: ["49"]
+  - q: "Kāds ir taisnstūra ar malām 5 cm un 8 cm perimetrs? (tikai skaitlis)"
+    a: ["26"]
+  - q: "Cik ir 4 reizes 4 reizes 4?"
+    a: ["64"]
+  - q: "Cik minūšu ir 3 stundās?"
+    a: ["180"]
+  - q: "Cik centimetru ir 2,5 metros?"
+    a: ["250"]
+  - q: "Kāds ir lielākais divciparu skaitlis?"
+    a: ["99"]
+  - q: "Cik ir 7 + 8 × 2?"
+    a: ["23"]
+  - q: "Cik ir 2 + 2 × 2?"
+    a: ["6"]
+  - q: "Kurš no šiem skaitļiem ir pirmskaitlis: 15, 17, 21 vai 27?"
+    a: ["17"]
+  - q: "Cik ir 0,5 + 0,25?"
+    a: ["0,75", "0.75"]
+  - q: "Cik malu ir sešstūrim?"
+    a: ["6", "seši"]
+  - q: "Cik sekunžu ir vienā minūtē? (tikai skaitlis)"
+    a: ["60"]
+  - q: "Cik gramu ir 3 kilogramos?"
+    a: ["3000"]
+  - q: "Cik ir 9 × 9?"
+    a: ["81"]
+  - q: "Cik ir 100 − 37?"
+    a: ["63"]
+
+  # ---------- Latviešu valoda ----------
+  - q: "Cik burtu ir latviešu alfabētā?"
+    a: ["33"]
+  - q: "Kā sauc vārdu šķiru, kas nosauc darbību (piemēram, skriet, lasīt)? (divi vārdi)"
+    a: ["darbības vārds", "darbibas vards"]
+  - q: "Kā sauc vārdu šķiru, kas atbild uz jautājumiem 'kas?' un 'ko?' (piemēram, galds, māja)?"
+    a: ["lietvārds"]
+  - q: "Kā sauc vārdu šķiru, kas atbild uz jautājumu 'kāds?' (piemēram, liels, zaļš)? (divi vārdi)"
+    a: ["īpašības vārds"]
+  - q: "Cik locījumu ir latviešu valodā?"
+    a: ["6", "seši"]
+  - q: "Kāds ir pretstats vārdam 'karsts'?"
+    a: ["auksts"]
+  - q: "Kāds ir pretstats vārdam 'diena'?"
+    a: ["nakts"]
+  - q: "Kāds ir daudzskaitlis vārdam 'bērns'?"
+    a: ["bērni"]
+  - q: "Cik zilbju ir vārdā 'skola'?"
+    a: ["2", "divas"]
+  - q: "Cik zilbju ir vārdā 'bibliotēka'?"
+    a: ["5", "piecas"]
+  - q: "Kāds ir pretstats vārdam 'liels'?"
+    a: ["mazs"]
+
+  # ---------- Dabaszinības ----------
+  - q: "Kā sauc planētu, kas atrodas vistuvāk Saulei?"
+    a: ["Merkurs"]
+  - q: "Cik planētu ir Saules sistēmā?"
+    a: ["8", "astoņas"]
+  - q: "Kā sauc lielāko planētu Saules sistēmā?"
+    a: ["Jupiters"]
+  - q: "Kā sauc Zemes dabisko pavadoni?"
+    a: ["Mēness"]
+  - q: "Kādu gāzi cilvēki ieelpo, lai dzīvotu?"
+    a: ["skābekli", "skābeklis"]
+  - q: "Kādā temperatūrā (°C) ūdens vārās? (tikai skaitlis)"
+    a: ["100"]
+  - q: "Kādā temperatūrā (°C) ūdens sasalst? (tikai skaitlis)"
+    a: ["0", "nulle"]
+  - q: "Kā sauc procesu, kurā augi no gaismas veido barības vielas?"
+    a: ["fotosintēze", "fotosintēzi"]
+  - q: "Kā sauc augu zaļo krāsvielu?"
+    a: ["hlorofils"]
+  - q: "Kā sauc cilvēka orgānu, kas pumpē asinis?"
+    a: ["sirds", "sirdi"]
+  - q: "Cik kāju ir kukaiņiem?"
+    a: ["6", "seši"]
+  - q: "Cik kāju ir zirneklim?"
+    a: ["8", "astoņas"]
+  - q: "Kā sauc dzīvniekus, kas barojas tikai ar augiem?"
+    a: ["zālēdāji"]
+  - q: "Kurš metāls ir šķidrs istabas temperatūrā?"
+    a: ["dzīvsudrabs"]
+  - q: "Kā sauc zinātni par dzīvajiem organismiem?"
+    a: ["bioloģija"]
+  - q: "Cik dienu ir parastā gadā?"
+    a: ["365"]
+  - q: "Kādā agregātstāvoklī ir ledus? (ciets, šķidrs vai gāzveida)"
+    a: ["ciets", "cietā", "cietais"]
+
+  # ---------- Ģeogrāfija ----------
+  - q: "Cik kontinentu ir uz Zemes?"
+    a: ["7", "septiņi"]
+  - q: "Kā sauc lielāko okeānu uz Zemes? (divi vārdi)"
+    a: ["Klusais okeāns", "Klusais"]
+  - q: "Kā sauc augstāko kalnu pasaulē?"
+    a: ["Everests", "Čomolungma"]
+  - q: "Kas ir Francijas galvaspilsēta?"
+    a: ["Parīze"]
+  - q: "Kas ir Vācijas galvaspilsēta?"
+    a: ["Berlīne"]
+  - q: "Kas ir Zviedrijas galvaspilsēta?"
+    a: ["Stokholma"]
+  - q: "Kas ir Somijas galvaspilsēta?"
+    a: ["Helsinki"]
+  - q: "Kas ir Igaunijas galvaspilsēta?"
+    a: ["Tallina"]
+  - q: "Kas ir Lietuvas galvaspilsēta?"
+    a: ["Viļņa"]
+  - q: "Kas ir Polijas galvaspilsēta?"
+    a: ["Varšava"]
+  - q: "Kas ir Itālijas galvaspilsēta?"
+    a: ["Roma"]
+  - q: "Kas ir Spānijas galvaspilsēta?"
+    a: ["Madride"]
+  - q: "Kas ir Apvienotās Karalistes galvaspilsēta?"
+    a: ["Londona"]
+  - q: "Kā sauc lielāko karsto tuksnesi pasaulē?"
+    a: ["Sahāra"]
+  - q: "Kā sauc iedomāto līniju, kas Zemi sadala ziemeļu un dienvidu puslodē?"
+    a: ["ekvators"]
+
+  # ---------- Vēsture ----------
+  - q: "Kā sauca seno ēģiptiešu valdniekus?"
+    a: ["faraoni"]
+  - q: "Kurā valstī atrodas Gīzas piramīdas?"
+    a: ["Ēģiptē", "Ēģipte"]
+  - q: "Kurā valstī sākās olimpiskās spēles?"
+    a: ["Grieķijā", "Grieķija"]
+  - q: "Kurš jūrasbraucējs 1492. gadā sasniedza Ameriku? (uzvārds)"
+    a: ["Kolumbs", "Kristofors Kolumbs"]
+
+  # ---------- Angļu valoda ----------
+  - q: "Kā angliski sauc krāsu 'sarkans'?"
+    a: ["red"]
+  - q: "Kā angliski sauc 'ābols'?"
+    a: ["apple"]
+  - q: "Kā angliski sauc ciparu 'septiņi'?"
+    a: ["seven"]
+  - q: "Kā angliski sauc 'kaķis'?"
+    a: ["cat"]
+  - q: "Kā angliski sauc nedēļas dienu 'pirmdiena'?"
+    a: ["Monday"]
+  - q: "Kā angliski sauc 'skola'?"
+    a: ["school"]
+
+  # ---------- Minecraft ----------
+  - q: "Kā sauc zaļo Minecraft radījumu, kas sprāgst?"
+    a: ["creeper", "krīpers"]
+  - q: "Kā sauc Minecraft dimensiju ar lavu un netherrack?"
+    a: ["Nether"]
+  - q: "Kā sauc Minecraft galveno pūķi, kas dzīvo End dimensijā? (divi vārdi)"
+    a: ["Ender Dragon", "Ender pūķis"]

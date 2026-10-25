@@ -36,11 +36,14 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
     private final List<Question> questions = new ArrayList<>();
     private final List<Material> rewardMaterials = new ArrayList<>();
     private final AtomicReference<Question> active = new AtomicReference<>();
+    private final List<BukkitTask> hintTasks = new ArrayList<>();
 
     private Question lastQuestion;
     private BukkitTask nextTask;
     private BukkitTask timeoutTask;
-    private BukkitTask hintTask;
+
+    /** 0 = parastais nejaušais intervāls no config; citādi fiksēts intervāls minūtēs. */
+    private int autoMinutes = 0;
 
     @Override
     public void onEnable() {
@@ -109,6 +112,11 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
 
     // ------------------------------------------------------------ scheduling
 
+    private void cancelHint() {
+        for (BukkitTask t : hintTasks) t.cancel();
+        hintTasks.clear();
+    }
+
     private void cancelTasks() {
         if (nextTask != null) nextTask.cancel();
         if (timeoutTask != null) timeoutTask.cancel();
@@ -117,19 +125,22 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
         timeoutTask = null;
     }
 
-    private void cancelHint() {
-        if (hintTask != null) hintTask.cancel();
-        hintTask = null;
-    }
-
     private void scheduleNext() {
         if (nextTask != null) nextTask.cancel();
-        int min = Math.max(1, getConfig().getInt("settings.min-interval-minutes", 5));
-        int max = Math.max(min, getConfig().getInt("settings.max-interval-minutes", 10));
-        long seconds = ThreadLocalRandom.current().nextLong(min * 60L, max * 60L + 1);
+        long seconds;
+        if (autoMinutes > 0) {
+            seconds = autoMinutes * 60L;
+        } else {
+            int min = Math.max(1, getConfig().getInt("settings.min-interval-minutes", 5));
+            int max = Math.max(min, getConfig().getInt("settings.max-interval-minutes", 10));
+            seconds = ThreadLocalRandom.current().nextLong(min * 60L, max * 60L + 1);
+        }
         nextTask = Bukkit.getScheduler().runTaskLater(this, () -> askQuestion(true), seconds * 20L);
     }
 
+    /**
+     * @param timed true = mājieni un beigās pareizā atbilde; false = bez beigām (tikai kamēr kāds atbild vai admins izlaiž)
+     */
     private boolean askQuestion(boolean timed) {
         if (active.get() != null || questions.isEmpty()) {
             scheduleNext();
@@ -146,55 +157,67 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
         } while (questions.size() > 1 && q == lastQuestion);
         lastQuestion = q;
 
-        int seconds = Math.max(5, getConfig().getInt("settings.answer-time-seconds", 60));
+        int hint1 = Math.max(1, getConfig().getInt("settings.hint-delay-seconds", 10));
+        int hint2 = Math.max(1, getConfig().getInt("settings.second-hint-delay-seconds", 20));
+        int end = Math.max(1, getConfig().getInt("settings.end-delay-seconds", 20));
+
         active.set(q);
-        scheduleHint(q);
+        scheduleHints(q, hint1, hint2);
 
         if (!timed) {
-            // jautājums bez taimera: gaida, līdz kāds atbild vai admins izlaiž
             Bukkit.broadcast(msg("question-no-timer",
                     Placeholder.unparsed("question", q.text())));
             return true;
         }
 
+        int total = hint1 + hint2 + end;
         Bukkit.broadcast(msg("question",
                 Placeholder.unparsed("question", q.text()),
-                Placeholder.unparsed("seconds", String.valueOf(seconds))));
+                Placeholder.unparsed("seconds", String.valueOf(total))));
 
         final Question asked = q;
         timeoutTask = Bukkit.getScheduler().runTaskLater(this, () -> {
             if (active.compareAndSet(asked, null)) {
+                cancelHint();
                 Bukkit.broadcast(msg("timeout",
                         Placeholder.unparsed("answer", asked.answers().get(0))));
                 scheduleNext();
             }
-        }, seconds * 20L);
+        }, total * 20L);
         return true;
     }
 
-    private void scheduleHint(Question q) {
+    private void scheduleHints(Question q, int hint1Seconds, int hint2Seconds) {
         cancelHint();
-        int delay = getConfig().getInt("settings.hint-delay-seconds", 10);
-        if (delay <= 0) return;
-        hintTask = Bukkit.getScheduler().runTaskLater(this, () -> {
+        hintTasks.add(Bukkit.getScheduler().runTaskLater(this, () -> {
             if (active.get() == q) {
                 Bukkit.broadcast(msg("hint",
-                        Placeholder.unparsed("hint", buildHint(q.answers().get(0)))));
+                        Placeholder.unparsed("hint", buildHint(q.answers().get(0), 1))));
             }
-        }, delay * 20L);
+        }, hint1Seconds * 20L));
+        hintTasks.add(Bukkit.getScheduler().runTaskLater(this, () -> {
+            if (active.get() == q) {
+                Bukkit.broadcast(msg("hint2",
+                        Placeholder.unparsed("hint", buildHint(q.answers().get(0), 2))));
+            }
+        }, (hint1Seconds + hint2Seconds) * 20L));
     }
 
-    /** Parāda katra vārda pirmo burtu, pārējie burti kļūst par _ */
-    static String buildHint(String answer) {
+    /**
+     * 1. mājiens: katra vārda pirmais burts.
+     * 2. mājiens: pirmais burts + katrs otrais burts.
+     */
+    static String buildHint(String answer, int level) {
         StringBuilder sb = new StringBuilder();
-        boolean startOfWord = true;
+        int pos = 0;
         for (char c : answer.toCharArray()) {
             if (Character.isLetterOrDigit(c)) {
-                sb.append(startOfWord ? c : '_');
-                startOfWord = false;
+                boolean show = pos == 0 || (level >= 2 && pos % 2 == 0);
+                sb.append(show ? c : '_');
+                pos++;
             } else {
                 sb.append(c);
-                startOfWord = (c == ' ');
+                if (c == ' ') pos = 0;
             }
         }
         return sb.toString();
@@ -283,6 +306,34 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
                     if (askQuestion(false)) sender.sendMessage(msgNoPrefix("asked"));
                 }
             }
+            case "auto" -> {
+                if (args.length >= 2 && args[1].equalsIgnoreCase("off")) {
+                    autoMinutes = 0;
+                    if (active.get() == null) scheduleNext();
+                    sender.sendMessage(msgNoPrefix("auto-off"));
+                } else {
+                    int minutes = 5;
+                    if (args.length >= 2) {
+                        try {
+                            minutes = Integer.parseInt(args[1]);
+                        } catch (NumberFormatException e) {
+                            sender.sendMessage(msgNoPrefix("usage"));
+                            return true;
+                        }
+                    }
+                    if (minutes < 1 || minutes > 1440) {
+                        sender.sendMessage(msgNoPrefix("usage"));
+                        return true;
+                    }
+                    autoMinutes = minutes;
+                    sender.sendMessage(msgNoPrefix("auto-on",
+                            Placeholder.unparsed("minutes", String.valueOf(minutes))));
+                    if (active.get() == null) {
+                        if (nextTask != null) nextTask.cancel();
+                        askQuestion(true);
+                    }
+                }
+            }
             case "skip" -> {
                 Question q = active.get();
                 if (q != null && active.compareAndSet(q, null)) {
@@ -310,9 +361,13 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (args.length == 1 && sender.hasPermission("chatquiz.admin")) {
-            return List.of("ask", "start", "skip", "reload").stream()
+        if (!sender.hasPermission("chatquiz.admin")) return List.of();
+        if (args.length == 1) {
+            return List.of("ask", "start", "auto", "skip", "reload").stream()
                     .filter(s -> s.startsWith(args[0].toLowerCase(Locale.ROOT))).toList();
+        }
+        if (args.length == 2 && args[0].equalsIgnoreCase("auto")) {
+            return List.of("5", "10", "off");
         }
         return List.of();
     }

@@ -7,7 +7,7 @@ commands:
   chatquiz:
     description: ChatQuiz komandas
     aliases: [quiz, viktorina]
-    usage: /chatquiz <ask|start|skip|reload>
+    usage: /chatquiz <ask|start|auto|skip|reload>
 permissions:
   chatquiz.admin:
     description: Ļauj izmantot /chatquiz komandas
