@@ -78,17 +78,22 @@ messages:
   auto-off: "<yellow>Fiksētais intervāls izslēgts, atgriezts parastais intervāls no config.</yellow>"
   usage: "<gray>Lietošana: /chatquiz <ask|start|auto [minūtes|off]|skip|reload></gray>"
 
-# Jautājumi: q = jautājums, a = pieņemamās atbildes (reģistrs un garumzīmes nav svarīgas).
+# Jautājumi par Latviju (6. klases līmenis).
+# q = jautājums, a = pieņemamās atbildes (reģistrs un garumzīmes nav svarīgas).
 # Pirmā atbilde tiek rādīta kā pareizā atbilde un no tās veido mājienus.
 questions:
-  # ---------- Latvija ----------
+  # ---------- Ģeogrāfija ----------
   - q: "Kā sauc Latvijas galvaspilsētu?"
     a: ["Rīga"]
-  - q: "Kurā gadā tika proklamēta Latvijas Republika?"
-    a: ["1918"]
-  - q: "Kurā datumā tiek svinēta Latvijas Republikas proklamēšanas diena? (piem. 5. maijs)"
-    a: ["18. novembris", "18.novembris", "18 novembris"]
-  - q: "Kā sauc Latvijas augstāko kalnu?"
+  - q: "Kā sauc Latvijas ziemeļu kaimiņvalsti?"
+    a: ["Igaunija"]
+  - q: "Kā sauc Latvijas dienvidu kaimiņvalsti?"
+    a: ["Lietuva"]
+  - q: "Kā sauc vienu no Latvijas austrumu kaimiņvalstīm? (ir divas)"
+    a: ["Krievija", "Baltkrievija"]
+  - q: "Kuras jūras daļa ir Rīgas jūras līcis?"
+    a: ["Baltijas jūras", "Baltijas jūra", "Baltijas"]
+  - q: "Kā sauc Latvijas augstāko pacēlumu jeb kalnu?"
     a: ["Gaiziņkalns", "Gaizinkalns"]
   - q: "Kā sauc garāko upi, kas plūst caur Latviju?"
     a: ["Daugava"]
@@ -98,251 +103,213 @@ questions:
     a: ["Lubāns", "Lubāna ezers"]
   - q: "Kā sauc lielāko ezeru Rīgā?"
     a: ["Ķīšezers"]
-  - q: "Kāda ir Latvijas valsts valoda?"
-    a: ["latviešu", "latviešu valoda", "latvieši"]
-  - q: "Kāda ir Latvijas naudas vienība?"
-    a: ["eiro", "euro"]
-  - q: "Kā sauc Latvijas ziemeļu kaimiņvalsti?"
-    a: ["Igaunija"]
-  - q: "Kā sauc Latvijas dienvidu kaimiņvalsti?"
-    a: ["Lietuva"]
-  - q: "Kā sauc Latvijas otro lielāko pilsētu pēc iedzīvotāju skaita?"
-    a: ["Daugavpils"]
+  - q: "Kā sauc platāko ūdenskritumu Eiropā, kas atrodas Kuldīgā? (divi vārdi)"
+    a: ["Ventas rumba", "Venta rumba"]
+  - q: "Kā sauc ragu Latvijas ziemeļrietumos, kur satiekas Baltijas jūra un Rīgas jūras līcis?"
+    a: ["Kolkasrags", "Kolkas rags"]
+  - q: "Kā sauc vecāko un lielāko Latvijas nacionālo parku?"
+    a: ["Gaujas nacionālais parks", "Gaujas"]
   - q: "Kā sauc Latvijas lielāko kūrortpilsētu pie Rīgas jūras līča?"
     a: ["Jūrmala"]
-  - q: "Kurā ostas pilsētā atrodas Karosta?"
+  - q: "Kā sauc Latvijas trešo lielāko pilsētu, ko dēvē par pilsētu, kurā piedzimst vējš?"
     a: ["Liepāja"]
-  - q: "Kā sauc slaveno ūdenskritumu Kuldīgā?"
-    a: ["Ventas rumba", "Venta rumba", "Rumba"]
-  - q: "Kā tautā dēvē Latvijas Nacionālo bibliotēku? (divi vārdi, sākas ar Gaismas)"
-    a: ["Gaismas pils"]
-  - q: "Kas sarakstījis lugu 'Uguns un nakts'?"
-    a: ["Rainis", "Jānis Rainis"]
-  - q: "Kas sarakstījis episko dzejoli 'Lāčplēsis'? (uzvārds)"
-    a: ["Pumpurs", "Andrejs Pumpurs"]
-  - q: "Kā sauc Latvijas himnu? (nosaukums trīs vārdos)"
-    a: ["Dievs, svētī Latviju", "Dievs svētī Latviju"]
-  - q: "Kurā mēnesī tiek svinēti Jāņi jeb Līgo svētki?"
-    a: ["jūnijā", "jūnijs"]
+  - q: "Kā sauc Latvijas otro lielāko pilsētu pēc iedzīvotāju skaita?"
+    a: ["Daugavpils"]
+  - q: "Kuras Latvijas ostas pilsētas simbols ir govju skulptūras?"
+    a: ["Ventspils"]
+  - q: "Kurā pilsētā atrodas bobsleja un kamaniņu trase, kā arī Turaidas pils?"
+    a: ["Sigulda", "Siguldā"]
+  - q: "Kā sauc slaveno alu Siguldā, kas saistīta ar Turaidas Rozes leģendu?"
+    a: ["Gūtmaņala", "Gūtmaņa ala"]
+  - q: "Kurā pilsētā atrodas viduslaiku pils un tiek vārīts slavens alus? (sākas ar C)"
+    a: ["Cēsis", "Cēsīs"]
+  - q: "Kā sauc pili, ko dēvē par 'Latvijas Versaļu'?"
+    a: ["Rundāles pils", "Rundāle", "Rundāles"]
+  - q: "Kurā pilsētā atrodas Bauskas pils?"
+    a: ["Bauska", "Bauskā"]
+  - q: "Kā sauc Latvijas novadu, kurā atrodas Daugavpils un Rēzekne?"
+    a: ["Latgale", "Latgalē"]
+  - q: "Kā sauc Latvijas novadu, kurā atrodas Liepāja un Ventspils?"
+    a: ["Kurzeme", "Kurzemē"]
+  - q: "Kā sauc Latvijas novadu, kurā atrodas Cēsis un Valmiera?"
+    a: ["Vidzeme", "Vidzemē"]
+  - q: "Kā sauc Latvijas novadu, kurā atrodas Jelgava?"
+    a: ["Zemgale", "Zemgalē"]
+  - q: "Aptuveni cik daļu Latvijas teritorijas klāj meži? (puse, trešdaļa vai ceturtdaļa)"
+    a: ["puse", "puses", "pusi"]
+
+  # ---------- Daba ----------
+  - q: "Kā sauc Latvijas nacionālo putnu? (divi vārdi, sākas ar baltā)"
+    a: ["baltā cielava", "cielava"]
+  - q: "Kāds ir Latvijas nacionālais kukainis? (divpunktu ...)"
+    a: ["mārīte", "divpunktu mārīte"]
+  - q: "Kurš koks ir viens no Latvijas nacionālajiem kokiem? (ir divi)"
+    a: ["ozols", "liepa"]
+  - q: "Kā sauc dārgakmeni, ko Baltijas jūra izskalo krastā un kas ir sasalušas sveķi?"
+    a: ["dzintars", "dzintaru"]
+  - q: "Kā sauc lielo meža dzīvnieku ar plakaniem lāpstveida ragiem?"
+    a: ["alnis", "alni"]
+  - q: "Kā sauc lielo balto putnu ar sarkanu knābi, kas ligzdo uz Latvijas lauku māju jumtiem?"
+    a: ["stārķis", "balts stārķis", "baltais stārķis"]
+  - q: "Kuras sarkanās ogas aug purvos un ir slavenas Latvijā? (sākas ar dz)"
+    a: ["dzērvenes", "dzērvene"]
+
+  # ---------- Valsts un simboli ----------
   - q: "Kādā krāsā ir šaurā svītra Latvijas karogā?"
     a: ["balta", "baltā"]
   - q: "Kāda krāsa Latvijas karogā ir platajām svītrām?"
     a: ["sarkana", "tumši sarkana", "karmīnsarkana", "sarkanā"]
+  - q: "Kā sauc Latvijas himnu? (nosaukums trīs vārdos)"
+    a: ["Dievs, svētī Latviju", "Dievs svētī Latviju"]
+  - q: "Kā sauc Latvijas parlamentu?"
+    a: ["Saeima"]
+  - q: "Cik deputātu ir Saeimā?"
+    a: ["100", "simts"]
   - q: "Kā sauc Latvijas pirmo valsts prezidentu? (uzvārds)"
     a: ["Čakste", "Jānis Čakste"]
-  - q: "Kurā pilsētā pie Gaujas atrodas Turaidas pils?"
-    a: ["Sigulda", "Siguldā"]
-  - q: "Kā sauc Latvijas nacionālo putnu? (divi vārdi, sākas ar baltā)"
-    a: ["baltā cielava", "cielava"]
-  - q: "Kurā jūrā atrodas Rīgas jūras līcis?"
-    a: ["Baltijas jūrā", "Baltijas jūra", "Baltijas"]
-  - q: "Kā tautā dēvē Brīvības pieminekļa augšgalā esošo figūru?"
-    a: ["Milda"]
-  - q: "Kurā gadā Latvija iestājās Eiropas Savienībā?"
-    a: ["2004"]
+  - q: "Kā sauc Latvijas pirmo sieviešu dzimuma valsts prezidenti? (uzvārds)"
+    a: ["Vīķe-Freiberga", "Vīķe Freiberga", "Vaira Vīķe-Freiberga", "Vaira Vīķe Freiberga"]
+  - q: "Kurš valstsvīrs bija Latvijas prezidents un premjerministrs 1930. gados? (uzvārds)"
+    a: ["Ulmanis", "Kārlis Ulmanis"]
+  - q: "Kāda ir Latvijas naudas vienība?"
+    a: ["eiro", "euro"]
+  - q: "Kā sauca Latvijas naudas vienību pirms eiro ieviešanas?"
+    a: ["lats", "Latvijas lats"]
   - q: "Kurā gadā Latvija ieviesa eiro?"
     a: ["2014"]
+  - q: "Kā tautā dēvē Brīvības pieminekļa augšgalā esošo figūru?"
+    a: ["Milda"]
+  - q: "Cik zvaigznes Milda tur rokās Brīvības piemineklī?"
+    a: ["3", "trīs"]
+  - q: "Kāda ir Latvijas valsts valoda?"
+    a: ["latviešu", "latviešu valoda", "latvieši"]
+  - q: "Cik burtu ir latviešu alfabētā?"
+    a: ["33"]
+  - q: "Kuras valsts valoda ir vistuvāk radniecīga latviešu valodai?"
+    a: ["lietuviešu", "lietuviešu valoda", "Lietuva"]
+  - q: "Kāds ir Latvijas tālruņa valsts kods? (tikai cipari)"
+    a: ["371", "+371"]
+
+  # ---------- Vēsture ----------
+  - q: "Kurā gadā tika proklamēta Latvijas Republika?"
+    a: ["1918"]
+  - q: "Kurā datumā tiek svinēta Latvijas Republikas proklamēšanas diena? (piem. 5. maijs)"
+    a: ["18. novembris", "18.novembris", "18 novembris"]
+  - q: "Kurā datumā tiek svinēta Latvijas neatkarības atjaunošanas diena? (piem. 5. jūnijs)"
+    a: ["4. maijs", "4.maijs", "4 maijs"]
+  - q: "Kurā datumā tiek atzīmēta Lāčplēša diena? (piem. 5. maijs)"
+    a: ["11. novembris", "11.novembris", "11 novembris"]
+  - q: "Kā sauc 1989. gada akciju, kad miljoniem cilvēku sadevās rokās cauri Igaunijai, Latvijai un Lietuvai? (divi vārdi)"
+    a: ["Baltijas ceļš"]
+  - q: "Kurā mēnesī 1991. gadā Rīgā notika barikādes?"
+    a: ["janvārī", "janvāris"]
+  - q: "Kurā gadā Latvija iestājās Eiropas Savienībā?"
+    a: ["2004"]
+  - q: "Kurā gadā Latvija iestājās NATO?"
+    a: ["2004"]
+  - q: "Kurā gadā tika dibināta Rīga?"
+    a: ["1201"]
+  - q: "Kurš bīskaps nodibināja Rīgu? (vārds)"
+    a: ["Alberts", "bīskaps Alberts"]
+  - q: "Kurā gadā Rīga bija Eiropas kultūras galvaspilsēta?"
+    a: ["2014"]
+  - q: "Kā sauca senatnes cilti, kas dzīvoja Kurzemē?"
+    a: ["kurši"]
+  - q: "Kā sauca senatnes cilti, kas dzīvoja Latgalē?"
+    a: ["latgaļi"]
+  - q: "Kā sauca senatnes cilti, kas dzīvoja Zemgalē?"
+    a: ["zemgaļi"]
+  - q: "Kā sauca Kurzemes hercogu, kurš dibināja kolonijas Tobāgo un Gambijā? (vārds)"
+    a: ["Jēkabs", "hercogs Jēkabs"]
+  - q: "Kā sauca latviešu kājniekus, kas Pirmajā pasaules karā cīnījās pie Rīgas?"
+    a: ["strēlnieki", "latviešu strēlnieki"]
+
+  # ---------- Tradīcijas un kultūra ----------
+  - q: "Kurā mēnesī tiek svinēti Jāņi jeb Līgo svētki?"
+    a: ["jūnijā", "jūnijs"]
+  - q: "Kurā datumā sākas Jāņu svinības (Līgo vakars)? (piem. 5. maijs)"
+    a: ["23. jūnijs", "23.jūnijs", "23 jūnijs"]
   - q: "Kādu sieru tradicionāli gatavo un ēd Jāņos? (divi vārdi)"
     a: ["Jāņu siers"]
-  - q: "Cik krāsu ir Latvijas karogā?"
-    a: ["2", "divas", "divi"]
+  - q: "No kāda koka lapām tradicionāli pin vīriešu vainagus Jāņos?"
+    a: ["ozola", "ozols", "ozolzaru"]
+  - q: "Ko Jāņu naktī dedzina un ap ko dejo?"
+    a: ["ugunskuru", "ugunskurs", "līgo ugunskuru"]
+  - q: "Ko latvieši Ziemassvētkos tradicionāli velk, lai atbrīvotos no nelaimēm? (sākas ar bl)"
+    a: ["bluķi", "bluķis", "Ziemassvētku bluķi"]
+  - q: "Ko latvieši tradicionāli dara ar olām Lieldienās?"
+    a: ["krāso", "krāsot", "ripina", "ripināt"]
+  - q: "Uz ko Lieldienās tradicionāli kāpj un šūpojas?"
+    a: ["šūpolēm", "šūpoles"]
+  - q: "Kā sauc latviešu tautasdziesmas, kuras apkopoja Krišjānis Barons?"
+    a: ["dainas", "latvju dainas"]
+  - q: "Kā sauc latviešu tautas stīgu mūzikas instrumentu?"
+    a: ["kokle", "kokli"]
+  - q: "Kā sauc latviešu eposa varoni, kura spēks slēpjas viņa ausīs?"
+    a: ["Lāčplēsis"]
+  - q: "Kā sauc ļauno spēku Lāčplēša eposā, ar kuru varonis cīnās? (divi vārdi)"
+    a: ["Melnais bruņinieks", "melnais bruņinieks"]
+  - q: "Kā sauc latviešu dievieti, kas lemj cilvēka likteni un laimi?"
+    a: ["Laima"]
+  - q: "Kā sauc dzejnieku, kas sarakstījis lugu 'Uguns un nakts'?"
+    a: ["Rainis", "Jānis Rainis"]
+  - q: "Kā sauc dzejnieka Raiņa sievu, kura arī bija dzejniece?"
+    a: ["Aspazija"]
+  - q: "Kas sarakstījis latviešu episko dzejoli 'Lāčplēsis'? (uzvārds)"
+    a: ["Pumpurs", "Andrejs Pumpurs"]
+  - q: "Kurā gadā notika pirmie vispārējie latviešu Dziesmu svētki?"
+    a: ["1873"]
+  - q: "Ik pēc cik gadiem notiek Vispārējie latviešu Dziesmu un deju svētki?"
+    a: ["5", "pieciem", "pieci", "piecos"]
+  - q: "Kurā Rīgas apkaimē atrodas Lielā estrāde, kur notiek Dziesmu svētku koncerti?"
+    a: ["Mežaparks", "Mežaparkā"]
+  - q: "Kā sauc tradicionālo latviešu melno maizi?"
+    a: ["rudzu maize", "rupjmaize", "rudzu"]
+  - q: "Kā sauc tradicionālos latviešu pīrāgus ar speķi un sīpoliem? (divi vārdi)"
+    a: ["speķa pīrāgi", "pīrāgi"]
+  - q: "Kā sauc slaveno latviešu saldo desertu no rupjmaizes, ogām un putukrējuma? (divi vārdi)"
+    a: ["rupjmaizes kārtojums"]
+  - q: "Kā sauc mazās kūpinātās zivis, kas konservos ir slavenas Latvijā?"
+    a: ["šprotes", "Rīgas šprotes"]
+  - q: "Kā sauc slaveno Latvijas šokolādes ražotāju, kura pulkstenis Rīgā ir populāra tikšanās vieta?"
+    a: ["Laima"]
+  - q: "Kā latviski sauc grupu Brainstorm, kas Eirovīzijā 2000. gadā ieguva trešo vietu? (divi vārdi)"
+    a: ["Prāta vētra"]
+  - q: "Kurā gadā Latvija uzvarēja Eirovīzijas dziesmu konkursā?"
+    a: ["2002"]
+  - q: "Kā sauc miniatūro spiegu fotokameru, kas izgudrota Rīgā?"
+    a: ["Minox"]
+  - q: "Kurā Latvijas pilsētā dzimis slavenais mākslinieks Marks Rotko?"
+    a: ["Daugavpils", "Daugavpilī"]
+
+  # ---------- Rīga ----------
   - q: "Kā sauc Rīgas galveno ielu, kuras galā atrodas Brīvības piemineklis?"
     a: ["Brīvības iela"]
   - q: "Kā sauc laukumu Vecrīgā, kur atrodas Melngalvju nams?"
     a: ["Rātslaukums", "Rātslaukumā"]
   - q: "Kā sauc Eiropā pazīstamo Rīgas tirgu, kas atrodas bijušajos cepelīnu angāros?"
     a: ["Centrāltirgus", "Rīgas Centrāltirgus"]
-  - q: "Kā sauc dārgakmeni, ko Baltijas jūra izskalo krastā un kas ir sasalušas sveķi?"
-    a: ["dzintars", "dzintaru"]
-  - q: "Kā sauc Latvijas lielāko nacionālo parku? (nosaukums bez vārda 'parks')"
-    a: ["Gaujas", "Gaujas nacionālais parks"]
+  - q: "Kāds zelta putns griežas uz Rīgas Doma torņa kā vēja rādītājs?"
+    a: ["gailis", "Doma gailis"]
+  - q: "Kā sauc trīs vecākās dzīvojamās ēkas Rīgas Vecpilsētā? (divi vārdi)"
+    a: ["Trīs brāļi"]
+  - q: "Kā sauc slaveno ēku Rīgā ar melnu kaķi uz jumta? (divi vārdi)"
+    a: ["Kaķu māja"]
+  - q: "Kādā arhitektūras stilā celtas daudzas ēkas Alberta ielā Rīgā?"
+    a: ["jūgendstilā", "jūgendstils", "art nouveau"]
+  - q: "Kā sauc Rīgas apkaimi pie Daugavas, kur atrodas augstais televīzijas tornis?"
+    a: ["Ķīpsala", "Ķīpsalā"]
+  - q: "Kā sauc Latvijas Nacionālo bibliotēku tautā? (divi vārdi, sākas ar Gaismas)"
+    a: ["Gaismas pils"]
+
+  # ---------- Sports ----------
+  - q: "Kā sauc latviešu basketbolistu, kurš spēlējis NBA un kura uzvārds ir Porziņģis? (vārds)"
+    a: ["Kristaps"]
+  - q: "Kā sauc latviešu tenisisti, kas 2017. gadā uzvarēja Francijas atklātajā čempionātā? (uzvārds)"
+    a: ["Ostapenko", "Jeļena Ostapenko"]
+  - q: "Kā sauc latviešu brāļus, slavenus skeletonistus un olimpisko spēļu medaļniekus? (uzvārds)"
+    a: ["Dukuri", "Dukurs"]
+  - q: "Kādu medaļu Latvijas hokeja izlase izcīnīja 2023. gada pasaules čempionātā?"
+    a: ["bronzas", "bronza", "bronzu"]
   - q: "Kā sauc Rīgas hokeja klubu, kas spēlējis KHL?"
     a: ["Dinamo Rīga", "Dinamo"]
-  - q: "Kurā datumā tiek atzīmēta Lāčplēša diena? (piem. 5. maijs)"
-    a: ["11. novembris", "11.novembris", "11 novembris"]
-  - q: "Kurā datumā sākas Jāņu svinības (Līgo vakars)? (piem. 5. maijs)"
-    a: ["23. jūnijs", "23.jūnijs", "23 jūnijs"]
-  - q: "Kurā pilsētā atrodas Cēsu viduslaiku pils?"
-    a: ["Cēsis", "Cēsīs"]
-  - q: "Kāds ir Latvijas tālruņa valsts kods? (tikai cipari)"
-    a: ["371", "+371"]
-  - q: "Kāds ir Latvijas nacionālais kukainis? (divpunktu ...)"
-    a: ["mārīte", "divpunktu mārīte"]
-  - q: "Kurā gadā tika dibināta Rīga?"
-    a: ["1201"]
-
-  # ---------- Matemātika (6. klase) ----------
-  - q: "Cik ir 12 × 12?"
-    a: ["144"]
-  - q: "Cik ir 15 × 6?"
-    a: ["90"]
-  - q: "Cik ir 144 : 12?"
-    a: ["12"]
-  - q: "Cik ir 1000 − 357?"
-    a: ["643"]
-  - q: "Cik ir ceturtā daļa no 200?"
-    a: ["50"]
-  - q: "Cik ir 25% no 80?"
-    a: ["20"]
-  - q: "Cik ir 50% no 46?"
-    a: ["23"]
-  - q: "Cik grādu ir taisnam leņķim?"
-    a: ["90"]
-  - q: "Cik grādu ir trijstūra leņķu summa?"
-    a: ["180"]
-  - q: "Kā sauc trijstūri, kuram visas trīs malas ir vienādas? (divi vārdi: ... trijstūris)"
-    a: ["vienādmalu", "vienādmalu trijstūris"]
-  - q: "Kāds ir kvadrāta ar malu 7 cm laukums? (tikai skaitlis)"
-    a: ["49"]
-  - q: "Kāds ir taisnstūra ar malām 5 cm un 8 cm perimetrs? (tikai skaitlis)"
-    a: ["26"]
-  - q: "Cik ir 4 reizes 4 reizes 4?"
-    a: ["64"]
-  - q: "Cik minūšu ir 3 stundās?"
-    a: ["180"]
-  - q: "Cik centimetru ir 2,5 metros?"
-    a: ["250"]
-  - q: "Kāds ir lielākais divciparu skaitlis?"
-    a: ["99"]
-  - q: "Cik ir 7 + 8 × 2?"
-    a: ["23"]
-  - q: "Cik ir 2 + 2 × 2?"
-    a: ["6"]
-  - q: "Kurš no šiem skaitļiem ir pirmskaitlis: 15, 17, 21 vai 27?"
-    a: ["17"]
-  - q: "Cik ir 0,5 + 0,25?"
-    a: ["0,75", "0.75"]
-  - q: "Cik malu ir sešstūrim?"
-    a: ["6", "seši"]
-  - q: "Cik sekunžu ir vienā minūtē? (tikai skaitlis)"
-    a: ["60"]
-  - q: "Cik gramu ir 3 kilogramos?"
-    a: ["3000"]
-  - q: "Cik ir 9 × 9?"
-    a: ["81"]
-  - q: "Cik ir 100 − 37?"
-    a: ["63"]
-
-  # ---------- Latviešu valoda ----------
-  - q: "Cik burtu ir latviešu alfabētā?"
-    a: ["33"]
-  - q: "Kā sauc vārdu šķiru, kas nosauc darbību (piemēram, skriet, lasīt)? (divi vārdi)"
-    a: ["darbības vārds", "darbibas vards"]
-  - q: "Kā sauc vārdu šķiru, kas atbild uz jautājumiem 'kas?' un 'ko?' (piemēram, galds, māja)?"
-    a: ["lietvārds"]
-  - q: "Kā sauc vārdu šķiru, kas atbild uz jautājumu 'kāds?' (piemēram, liels, zaļš)? (divi vārdi)"
-    a: ["īpašības vārds"]
-  - q: "Cik locījumu ir latviešu valodā?"
-    a: ["6", "seši"]
-  - q: "Kāds ir pretstats vārdam 'karsts'?"
-    a: ["auksts"]
-  - q: "Kāds ir pretstats vārdam 'diena'?"
-    a: ["nakts"]
-  - q: "Kāds ir daudzskaitlis vārdam 'bērns'?"
-    a: ["bērni"]
-  - q: "Cik zilbju ir vārdā 'skola'?"
-    a: ["2", "divas"]
-  - q: "Cik zilbju ir vārdā 'bibliotēka'?"
-    a: ["5", "piecas"]
-  - q: "Kāds ir pretstats vārdam 'liels'?"
-    a: ["mazs"]
-
-  # ---------- Dabaszinības ----------
-  - q: "Kā sauc planētu, kas atrodas vistuvāk Saulei?"
-    a: ["Merkurs"]
-  - q: "Cik planētu ir Saules sistēmā?"
-    a: ["8", "astoņas"]
-  - q: "Kā sauc lielāko planētu Saules sistēmā?"
-    a: ["Jupiters"]
-  - q: "Kā sauc Zemes dabisko pavadoni?"
-    a: ["Mēness"]
-  - q: "Kādu gāzi cilvēki ieelpo, lai dzīvotu?"
-    a: ["skābekli", "skābeklis"]
-  - q: "Kādā temperatūrā (°C) ūdens vārās? (tikai skaitlis)"
-    a: ["100"]
-  - q: "Kādā temperatūrā (°C) ūdens sasalst? (tikai skaitlis)"
-    a: ["0", "nulle"]
-  - q: "Kā sauc procesu, kurā augi no gaismas veido barības vielas?"
-    a: ["fotosintēze", "fotosintēzi"]
-  - q: "Kā sauc augu zaļo krāsvielu?"
-    a: ["hlorofils"]
-  - q: "Kā sauc cilvēka orgānu, kas pumpē asinis?"
-    a: ["sirds", "sirdi"]
-  - q: "Cik kāju ir kukaiņiem?"
-    a: ["6", "seši"]
-  - q: "Cik kāju ir zirneklim?"
-    a: ["8", "astoņas"]
-  - q: "Kā sauc dzīvniekus, kas barojas tikai ar augiem?"
-    a: ["zālēdāji"]
-  - q: "Kurš metāls ir šķidrs istabas temperatūrā?"
-    a: ["dzīvsudrabs"]
-  - q: "Kā sauc zinātni par dzīvajiem organismiem?"
-    a: ["bioloģija"]
-  - q: "Cik dienu ir parastā gadā?"
-    a: ["365"]
-  - q: "Kādā agregātstāvoklī ir ledus? (ciets, šķidrs vai gāzveida)"
-    a: ["ciets", "cietā", "cietais"]
-
-  # ---------- Ģeogrāfija ----------
-  - q: "Cik kontinentu ir uz Zemes?"
-    a: ["7", "septiņi"]
-  - q: "Kā sauc lielāko okeānu uz Zemes? (divi vārdi)"
-    a: ["Klusais okeāns", "Klusais"]
-  - q: "Kā sauc augstāko kalnu pasaulē?"
-    a: ["Everests", "Čomolungma"]
-  - q: "Kas ir Francijas galvaspilsēta?"
-    a: ["Parīze"]
-  - q: "Kas ir Vācijas galvaspilsēta?"
-    a: ["Berlīne"]
-  - q: "Kas ir Zviedrijas galvaspilsēta?"
-    a: ["Stokholma"]
-  - q: "Kas ir Somijas galvaspilsēta?"
-    a: ["Helsinki"]
-  - q: "Kas ir Igaunijas galvaspilsēta?"
-    a: ["Tallina"]
-  - q: "Kas ir Lietuvas galvaspilsēta?"
-    a: ["Viļņa"]
-  - q: "Kas ir Polijas galvaspilsēta?"
-    a: ["Varšava"]
-  - q: "Kas ir Itālijas galvaspilsēta?"
-    a: ["Roma"]
-  - q: "Kas ir Spānijas galvaspilsēta?"
-    a: ["Madride"]
-  - q: "Kas ir Apvienotās Karalistes galvaspilsēta?"
-    a: ["Londona"]
-  - q: "Kā sauc lielāko karsto tuksnesi pasaulē?"
-    a: ["Sahāra"]
-  - q: "Kā sauc iedomāto līniju, kas Zemi sadala ziemeļu un dienvidu puslodē?"
-    a: ["ekvators"]
-
-  # ---------- Vēsture ----------
-  - q: "Kā sauca seno ēģiptiešu valdniekus?"
-    a: ["faraoni"]
-  - q: "Kurā valstī atrodas Gīzas piramīdas?"
-    a: ["Ēģiptē", "Ēģipte"]
-  - q: "Kurā valstī sākās olimpiskās spēles?"
-    a: ["Grieķijā", "Grieķija"]
-  - q: "Kurš jūrasbraucējs 1492. gadā sasniedza Ameriku? (uzvārds)"
-    a: ["Kolumbs", "Kristofors Kolumbs"]
-
-  # ---------- Angļu valoda ----------
-  - q: "Kā angliski sauc krāsu 'sarkans'?"
-    a: ["red"]
-  - q: "Kā angliski sauc 'ābols'?"
-    a: ["apple"]
-  - q: "Kā angliski sauc ciparu 'septiņi'?"
-    a: ["seven"]
-  - q: "Kā angliski sauc 'kaķis'?"
-    a: ["cat"]
-  - q: "Kā angliski sauc nedēļas dienu 'pirmdiena'?"
-    a: ["Monday"]
-  - q: "Kā angliski sauc 'skola'?"
-    a: ["school"]
-
-  # ---------- Minecraft ----------
-  - q: "Kā sauc zaļo Minecraft radījumu, kas sprāgst?"
-    a: ["creeper", "krīpers"]
-  - q: "Kā sauc Minecraft dimensiju ar lavu un netherrack?"
-    a: ["Nether"]
-  - q: "Kā sauc Minecraft galveno pūķi, kas dzīvo End dimensijā? (divi vārdi)"
-    a: ["Ender Dragon", "Ender pūķis"]
