@@ -19,8 +19,11 @@ settings:
   # true = jebkurš nejaušs itēms spēlē; false = tikai saraksts zemāk
   reward-any-item: false
 
-# Balvu saraksts (Minecraft materiālu nosaukumi). Ja vēlies, lai kaut kas krīt biežāk,
-# ieraksti to sarakstā vairākas reizes.
+# Balvu saraksts (Minecraft materiālu nosaukumi).
+# Formāts: MATERIĀLS            -> daudzums no settings.min-amount līdz settings.max-amount
+#          MATERIĀLS:16-32      -> nejaušs daudzums no 16 līdz 32
+#          MATERIĀLS:16         -> tieši 16
+# Ja vēlies, lai kaut kas krīt biežāk, ieraksti to sarakstā vairākas reizes.
 reward-materials:
   # vērtīgie resursi un rūdu itēmi (nevis rūdas bloki)
   - DIAMOND
@@ -38,20 +41,20 @@ reward-materials:
   - AMETHYST_SHARD
   - IRON_NUGGET
   - GOLD_NUGGET
-  # bloki
+  # būvniecības bloki
   - GLASS
   - STONE
   - COBBLESTONE
-  - STONE_BRICKS
-  - OAK_PLANKS
-  - SPRUCE_PLANKS
-  - BIRCH_PLANKS
-  - JUNGLE_PLANKS
-  - ACACIA_PLANKS
-  - DARK_OAK_PLANKS
-  - OAK_LOG
-  - SPRUCE_LOG
-  - BIRCH_LOG
+  # koks: vismaz 16
+  - "OAK_PLANKS:16-32"
+  - "SPRUCE_PLANKS:16-32"
+  - "BIRCH_PLANKS:16-32"
+  - "JUNGLE_PLANKS:16-32"
+  - "ACACIA_PLANKS:16-32"
+  - "DARK_OAK_PLANKS:16-32"
+  - "OAK_LOG:16-32"
+  - "SPRUCE_LOG:16-32"
+  - "BIRCH_LOG:16-32"
   # tikai zelta ēdiens
   - GOLDEN_APPLE
   - GOLDEN_CARROT

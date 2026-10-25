@@ -33,8 +33,10 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
 
     private record Question(String text, List<String> answers, List<String> normalizedAnswers) {}
 
+    private record Reward(Material material, int min, int max) {}
+
     private final List<Question> questions = new ArrayList<>();
-    private final List<Material> rewardMaterials = new ArrayList<>();
+    private final List<Reward> rewards = new ArrayList<>();
     private final AtomicReference<Question> active = new AtomicReference<>();
     private final List<BukkitTask> hintTasks = new ArrayList<>();
 
@@ -82,22 +84,50 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
             questions.add(new Question(String.valueOf(q), answers, normalized));
         }
 
-        rewardMaterials.clear();
+        rewards.clear();
+        int defMin = Math.max(1, cfg.getInt("settings.min-amount", 1));
+        int defMax = Math.max(defMin, cfg.getInt("settings.max-amount", 6));
         if (cfg.getBoolean("settings.reward-any-item", false)) {
             for (Material m : Material.values()) {
-                if (m.isItem() && !m.isAir() && !m.isLegacy()) rewardMaterials.add(m);
+                if (m.isItem() && !m.isAir() && !m.isLegacy()) rewards.add(new Reward(m, defMin, defMax));
             }
         } else {
-            for (String name : cfg.getStringList("reward-materials")) {
+            // formāts: MATERIAL  vai  MATERIAL:min-max  vai  MATERIAL:daudzums
+            for (String entry : cfg.getStringList("reward-materials")) {
+                String name = entry.trim();
+                int min = defMin;
+                int max = defMax;
+                int colon = name.indexOf(':');
+                if (colon > 0) {
+                    String range = name.substring(colon + 1).trim();
+                    name = name.substring(0, colon).trim();
+                    try {
+                        int dash = range.indexOf('-');
+                        if (dash > 0) {
+                            min = Integer.parseInt(range.substring(0, dash).trim());
+                            max = Integer.parseInt(range.substring(dash + 1).trim());
+                        } else {
+                            min = Integer.parseInt(range);
+                            max = min;
+                        }
+                    } catch (NumberFormatException e) {
+                        getLogger().warning("Nepareizs daudzums konfigurācijā: " + entry);
+                        min = defMin;
+                        max = defMax;
+                    }
+                }
+                min = Math.max(1, min);
+                max = Math.max(min, max);
+
                 Material m = Material.matchMaterial(name);
                 if (m != null && m.isItem() && !m.isAir()) {
-                    rewardMaterials.add(m);
+                    rewards.add(new Reward(m, min, max));
                 } else {
                     getLogger().warning("Nezināms materiāls konfigurācijā: " + name);
                 }
             }
         }
-        if (rewardMaterials.isEmpty()) rewardMaterials.add(Material.DIAMOND);
+        if (rewards.isEmpty()) rewards.add(new Reward(Material.DIAMOND, defMin, defMax));
     }
 
     private Component msg(String key, TagResolver... resolvers) {
@@ -249,10 +279,9 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
         if (timeoutTask != null) timeoutTask.cancel();
         cancelHint();
 
-        int minA = Math.max(1, getConfig().getInt("settings.min-amount", 1));
-        int maxA = Math.max(minA, getConfig().getInt("settings.max-amount", 6));
-        int amount = ThreadLocalRandom.current().nextInt(minA, maxA + 1);
-        Material material = rewardMaterials.get(ThreadLocalRandom.current().nextInt(rewardMaterials.size()));
+        Reward reward = rewards.get(ThreadLocalRandom.current().nextInt(rewards.size()));
+        Material material = reward.material();
+        int amount = ThreadLocalRandom.current().nextInt(reward.min(), reward.max() + 1);
 
         Component itemName = Component.translatable(material.translationKey());
 
