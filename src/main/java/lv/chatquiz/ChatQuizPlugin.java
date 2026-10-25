@@ -1,6 +1,8 @@
 package lv.chatquiz;
 
 import io.papermc.paper.event.player.AsyncChatEvent;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -197,6 +199,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
         if (!timed) {
             Bukkit.broadcast(msg("question-no-timer",
                     Placeholder.unparsed("question", q.text())));
+            playQuestionSound();
             return true;
         }
 
@@ -204,6 +207,7 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
         Bukkit.broadcast(msg("question",
                 Placeholder.unparsed("question", q.text()),
                 Placeholder.unparsed("seconds", String.valueOf(total))));
+        playQuestionSound();
 
         final Question asked = q;
         timeoutTask = Bukkit.getScheduler().runTaskLater(this, () -> {
@@ -215,6 +219,20 @@ public final class ChatQuizPlugin extends JavaPlugin implements Listener {
             }
         }, total * 20L);
         return true;
+    }
+
+    /** Nošu bloka skaņa visiem spēlētājiem, kad parādās jautājums. */
+    private void playQuestionSound() {
+        String name = getConfig().getString("settings.question-sound", "block.note_block.pling");
+        if (name == null || name.isBlank() || name.equalsIgnoreCase("none")) return;
+        try {
+            float volume = (float) getConfig().getDouble("settings.question-sound-volume", 1.0);
+            float pitch = (float) getConfig().getDouble("settings.question-sound-pitch", 2.0);
+            Bukkit.getServer().playSound(Sound.sound(
+                    Key.key(name.trim().toLowerCase(Locale.ROOT)), Sound.Source.MASTER, volume, pitch));
+        } catch (RuntimeException e) {
+            getLogger().warning("Nepareizs skaņas nosaukums konfigurācijā: " + name);
+        }
     }
 
     private void scheduleHints(Question q, int hint1Seconds, int hint2Seconds) {

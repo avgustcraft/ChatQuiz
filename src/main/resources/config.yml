@@ -11,6 +11,12 @@ settings:
   end-delay-seconds: 20
   # Minimālais spēlētāju skaits serverī, lai jautājums parādītos
   min-players: 1
+  # Skaņa, kad parādās jautājums (nošu bloka skaņa). "none" = bez skaņas.
+  # Citas nošu bloka skaņas: block.note_block.bell, block.note_block.chime, block.note_block.harp
+  question-sound: "block.note_block.pling"
+  question-sound-volume: 1.0
+  # Augstums: 0.5 (zems) līdz 2.0 (visaugstākais)
+  question-sound-pitch: 2.0
   # Paslēpt pareizo atbildi no čata (lai citi to neredz)
   hide-correct-answer: true
   # Balvas daudzums (nejaušs skaits no min līdz max)
